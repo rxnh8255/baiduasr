@@ -15,12 +15,12 @@ cordova plugin add cordova-plugin-baiduasr --variable APIKEY=your API_Key --vari
 
 0.开始录音识别
 ```javascript
-window.BaiduAsrPlugin.begin();
+window.baiduAsrPlugin.begin();
 ```
 
 2.停止录音
 ```javascript
-window.BaiduAsrPlugin.stop();
+window.baiduAsrPlugin.stop();
 ```
 
 3.使用registerNotify接收来通知的回调函数
@@ -41,7 +41,7 @@ if(dataModel.result_type =="final_result"){
 ```
 
 ```javascript
-window.BaiduAsrPlugin.registerNotify(function (res) {
+window.baiduAsrPlugin.registerNotify(function (res) {
     //res参数都带有一个type
     console.log(res);
 },function(err){

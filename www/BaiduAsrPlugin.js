@@ -11,4 +11,4 @@ BaiduAsrPlugin.prototype.stop = function(success, fail) {
 BaiduAsrPlugin.prototype.registerNotify = function(success, fail) {
 	return cordova.exec(success, fail, "BaiduAsrPlugin", "registerNotify", [{}]);
 };
-window.BaiduAsrPlugin = new BaiduAsrPlugin();
+window.baiduAsrPlugin = new BaiduAsrPlugin();

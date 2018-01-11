@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-baiduasr"
-    version="1.0.3"
+    version="1.0.6"
     xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>BaiduAsrPlugin</name>
     <dependency id="cordova-plugin-compat" version="^1.0.0" />
@@ -19,7 +19,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data
                 android:name="com.baidu.speech.APP_ID"
-                android:value="$BAPPID\0" />
+                android:value="$BAPPID" />
             <meta-data
                 android:name="com.baidu.speech.API_KEY"
                 android:value="$APIKEY" />

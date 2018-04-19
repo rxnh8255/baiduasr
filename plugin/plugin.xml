@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-baiduasr"
+    version="1.0.9"
+    xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>BaiduAsrPlugin</name>
+    <dependency id="cordova-plugin-compat" version="^1.0.0" />
+    <preference name="APIKEY" />
+    <preference name="SECRETKEY" />
+    <preference name="BAPPID" />
+    <js-module name="BaiduAsrPlugin" src="www/BaiduAsrPlugin.js">
+        <clobbers target="BaiduAsrPlugin" />
+    </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="BaiduAsrPlugin">
+                <param name="android-package" value="com.blanktrack.baidu.BaiduAsrPlugin" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data
+                android:name="com.baidu.speech.APP_ID"
+                android:value="$BAPPID" />
+            <meta-data
+                android:name="com.baidu.speech.API_KEY"
+                android:value="$APIKEY" />
+            <meta-data
+                android:name="com.baidu.speech.SECRET_KEY"
+                android:value="$SECRETKEY" />
+            <service
+                android:name="com.baidu.speech.VoiceRecognitionService"
+                android:exported="false" />
+        </config-file>
+        <config-file parent="/*" target="AndroidManifest.xml">
+            <uses-permission android:name="android.permission.RECORD_AUDIO" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+        </config-file>
+
+        <source-file src="src/android/com/blanktrack/baidu/BaiduAsrPlugin.java"
+            target-dir="src/com/blanktrack/baidu" />
+
+        <source-file src="libs/bdasr_V3_20171108_9800a2a.jar" target-dir="libs" />
+        <source-file src="libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar" target-dir="libs" />
+        <source-file src="libs/armeabi/libBaiduSpeechSDK.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libvad.dnn.so" target-dir="libs/armeabi" />
+
+        <source-file src="libs/armeabi/libbd_etts.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libBDSpeechDecoder_V1.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libbdtts.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libgnustl_shared.so" target-dir="libs/armeabi" />
+
+
+    </platform>
+</plugin>

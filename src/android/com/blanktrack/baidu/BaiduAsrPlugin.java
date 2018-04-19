@@ -9,6 +9,10 @@ import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
+import com.baidu.tts.client.SpeechError;
+import com.baidu.tts.client.SpeechSynthesizer;
+import com.baidu.tts.client.SpeechSynthesizerListener;
+import com.baidu.tts.client.TtsMode;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -29,7 +33,7 @@ public class BaiduAsrPlugin extends CordovaPlugin {
     private static CallbackContext pushContext;
     private String permission = Manifest.permission.RECORD_AUDIO;
     private EventManager asr;
-
+    SpeechSynthesizer mSpeechSynthesizer;
 
     public static CallbackContext getCurrentCallbackContext() {
         return pushContext;
@@ -53,19 +57,67 @@ public class BaiduAsrPlugin extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
-//        Context context = this.cordova.getActivity().getApplicationContext();
+       Context context = this.cordova.getActivity().getApplicationContext();
 
-//        ApplicationInfo applicationInfo = null;
-//        try {
-//            applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
+       ApplicationInfo applicationInfo = null;
+       try {
+           applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+       } catch (PackageManager.NameNotFoundException e) {
+           e.printStackTrace();
+       }
 
         //SpeechUtility.createUtility(context, "appid="+applicationInfo.metaData.getString("com.blanktrack.appid"));
 
         asr = EventManagerFactory.create(getApplicationContext(), "asr");
         asr.registerListener(asrListener);
+
+        //初始化TTS
+        mSpeechSynthesizer = SpeechSynthesizer.getInstance();
+        mSpeechSynthesizer.setContext(getApplicationContext());
+        mSpeechSynthesizer.setSpeechSynthesizerListener(new SpeechSynthesizerListener(){
+
+      @Override
+      public void onSynthesizeStart(String s) {           }
+      @Override
+      public void onSynthesizeDataArrived(String s, byte[] bytes, int i) {            }
+
+      @Override
+      public void onSynthesizeFinish(String s) {
+        Log.i(TAG, "onSynthesizeFinish: ");
+      }
+      @Override
+      public void onSpeechStart(String s) {            }
+      @Override
+      public void onSpeechProgressChanged(String s, int i) {            }
+
+      @Override
+      public void onSpeechFinish(String s) {
+        Log.i(TAG, "onSpeechFinish: "+s);
+
+        sendEvent("ttsStoped",s);
+
+      }
+      @Override
+      public void onError(String s, SpeechError speechError) {
+
+      }
+    });
+    mSpeechSynthesizer.setAppId(applicationInfo.metaData.getString("com.baidu.speech.APP_ID"));
+    mSpeechSynthesizer.setApiKey(applicationInfo.metaData.getString("com.baidu.speech.API_KEY"),applicationInfo.metaData.getString("com.baidu.speech.SECRET_KEY"));
+
+    // mSpeechSynthesizer.setAppId("10099877");
+    // mSpeechSynthesizer.setApiKey("BEaA7Pk5LPkdvZnpNvM81xra","fda5a5cfbce396f20b21c3510412989d");
+    // 5. 以下setParam 参数选填。不填写则默认值生效
+    // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
+    mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0");
+    // 设置合成的音量，0-9 ，默认 5
+    mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME, "9");
+    // 设置合成的语速，0-9 ，默认 5
+    mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, "5");
+    // 设置合成的语调，0-9 ，默认 5
+    mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_PITCH, "5");
+    mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_MIX_MODE, SpeechSynthesizer.MIX_MODE_HIGH_SPEED_NETWORK);
+    mSpeechSynthesizer.initTts(TtsMode.ONLINE);
 
     }
 
@@ -104,34 +156,12 @@ public class BaiduAsrPlugin extends CordovaPlugin {
                 sendEvent("asrText",params);
             }
 
-            //唤醒成功
-//            if(name.equals("wp.data")){
-//                try {
-//                    JSONObject json = new JSONObject(params);
-//                    int errorCode = json.getInt("errorCode");
-//                    if(errorCode == 0){
-//                        //唤醒成功
-//                        sendEvent("wakeup",json.toString());
-//                        Log.i(TAG,"baidu唤醒成功了了了了");
-//                    } else {
-//                        //唤醒失败
-//                        Log.i(TAG,"baidu唤醒失败l了了了了");
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            } else if("wp.exit".equals(name)){
-//                //唤醒已停止
-//                Log.i(TAG,"baidu唤醒停止停止");
-//                sendEvent("sleep","true");
-//            }
-
         }
     };
 
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        //final JSONObject arg_object = args.getJSONObject(0);
+        final JSONObject arg_object = args.getJSONObject(0);
         if ("begin".equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -159,7 +189,15 @@ public class BaiduAsrPlugin extends CordovaPlugin {
                     registerNotifyCallback(callbackContext);
                 }
             });
-        }
+        }else if("ttsPlay".equals(action)){
+            String text = arg_object.getString("text");
+            String utteranceId = arg_object.getString("utteranceId");
+            mSpeechSynthesizer.speak(text,utteranceId);
+            callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK) );
+          }else if("ttsStop".equals(action)){
+            mSpeechSynthesizer.stop();
+            callbackContext.sendPluginResult( new PluginResult(PluginResult.Status.OK) );
+          }
         else {
             Log.e(TAG, "Invalid action : " + action);
             callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.INVALID_ACTION));

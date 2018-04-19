@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-baiduasr"
-    version="1.0.7"
+    version="1.0.8"
     xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>BaiduAsrPlugin</name>
     <dependency id="cordova-plugin-compat" version="^1.0.0" />
@@ -36,26 +36,25 @@
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.READ_PHONE_STATE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
         </config-file>
 
         <source-file src="src/android/com/blanktrack/baidu/BaiduAsrPlugin.java"
             target-dir="src/com/blanktrack/baidu" />
 
         <source-file src="libs/bdasr_V3_20171108_9800a2a.jar" target-dir="libs" />
+        <source-file src="libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar" target-dir="libs" />
         <source-file src="libs/armeabi/libBaiduSpeechSDK.so" target-dir="libs/armeabi" />
         <source-file src="libs/armeabi/libvad.dnn.so" target-dir="libs/armeabi" />
 
-        <source-file src="libs/arm64-v8a/libBaiduSpeechSDK.so" target-dir="libs/arm64-v8a" />
-        <source-file src="libs/arm64-v8a/libvad.dnn.so" target-dir="libs/arm64-v8a" />
+        <source-file src="libs/armeabi/libbd_etts.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libBDSpeechDecoder_V1.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libbdtts.so" target-dir="libs/armeabi" />
+        <source-file src="libs/armeabi/libgnustl_shared.so" target-dir="libs/armeabi" />
 
-        <source-file src="libs/armeabi-v7a/libBaiduSpeechSDK.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="libs/armeabi-v7a/libvad.dnn.so" target-dir="libs/armeabi-v7a" />
-
-        <source-file src="libs/x86/libBaiduSpeechSDK.so" target-dir="libs/x86" />
-        <source-file src="libs/x86/libvad.dnn.so" target-dir="libs/x86" />
-
-        <source-file src="libs/x86_64/libBaiduSpeechSDK.so" target-dir="libs/x86_64" />
-        <source-file src="libs/x86_64/libvad.dnn.so" target-dir="libs/x86_64" />
 
     </platform>
 </plugin>

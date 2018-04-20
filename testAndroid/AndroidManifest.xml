@@ -12,7 +12,7 @@
 
         <meta-data
             android:name="com.baidu.speech.APP_ID"
-            android:value="10099877" />
+            android:value="10099877\0" />
         <meta-data
             android:name="com.baidu.speech.API_KEY"
             android:value="BEaA7Pk5LPkdvZnpNvM81xra" />

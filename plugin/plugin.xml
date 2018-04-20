@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-baiduasr"
-    version="1.0.9"
+    version="1.0.902"
     xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>BaiduAsrPlugin</name>
     <dependency id="cordova-plugin-compat" version="^1.0.0" />
@@ -19,7 +19,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data
                 android:name="com.baidu.speech.APP_ID"
-                android:value="$BAPPID" />
+                android:value="$BAPPID\0" />
             <meta-data
                 android:name="com.baidu.speech.API_KEY"
                 android:value="$APIKEY" />
@@ -45,15 +45,43 @@
         <source-file src="src/android/com/blanktrack/baidu/BaiduAsrPlugin.java"
             target-dir="src/com/blanktrack/baidu" />
 
-        <source-file src="libs/bdasr_V3_20171108_9800a2a.jar" target-dir="libs" />
+        <source-file src="libs/bdasr_V3_20180320_9066860.jar" target-dir="libs" />
         <source-file src="libs/com.baidu.tts_2.3.1.20170808_e39ea89.jar" target-dir="libs" />
+
         <source-file src="libs/armeabi/libBaiduSpeechSDK.so" target-dir="libs/armeabi" />
         <source-file src="libs/armeabi/libvad.dnn.so" target-dir="libs/armeabi" />
-
         <source-file src="libs/armeabi/libbd_etts.so" target-dir="libs/armeabi" />
         <source-file src="libs/armeabi/libBDSpeechDecoder_V1.so" target-dir="libs/armeabi" />
         <source-file src="libs/armeabi/libbdtts.so" target-dir="libs/armeabi" />
         <source-file src="libs/armeabi/libgnustl_shared.so" target-dir="libs/armeabi" />
+
+        <source-file src="libs/arm64-v8a/libBaiduSpeechSDK.so" target-dir="libs/arm64-v8a" />
+        <source-file src="libs/arm64-v8a/libvad.dnn.so" target-dir="libs/arm64-v8a" />
+        <source-file src="libs/arm64-v8a/libbd_etts.so" target-dir="libs/arm64-v8a" />
+        <source-file src="libs/arm64-v8a/libBDSpeechDecoder_V1.so" target-dir="libs/arm64-v8a" />
+        <source-file src="libs/arm64-v8a/libbdtts.so" target-dir="libs/arm64-v8a" />
+        <source-file src="libs/arm64-v8a/libgnustl_shared.so" target-dir="libs/arm64-v8a" />
+
+        <source-file src="libs/armeabi-v7a/libBaiduSpeechSDK.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libs/armeabi-v7a/libvad.dnn.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libs/armeabi-v7a/libbd_etts.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libs/armeabi-v7a/libBDSpeechDecoder_V1.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libs/armeabi-v7a/libbdtts.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="libs/armeabi-v7a/libgnustl_shared.so" target-dir="libs/armeabi-v7a" />
+
+        <source-file src="libs/x86/libBaiduSpeechSDK.so" target-dir="libs/x86" />
+        <source-file src="libs/x86/libvad.dnn.so" target-dir="libs/x86" />
+        <source-file src="libs/x86/libbd_etts.so" target-dir="libs/x86" />
+        <source-file src="libs/x86/libBDSpeechDecoder_V1.so" target-dir="libs/x86" />
+        <source-file src="libs/x86/libbdtts.so" target-dir="libs/x86" />
+        <source-file src="libs/x86/libgnustl_shared.so" target-dir="libs/x86" />
+
+        <source-file src="libs/x86_64/libBaiduSpeechSDK.so" target-dir="libs/x86_64" />
+        <source-file src="libs/x86_64/libvad.dnn.so" target-dir="libs/x86_64" />
+        <source-file src="libs/x86_64/libbd_etts.so" target-dir="libs/x86_64" />
+        <source-file src="libs/x86_64/libBDSpeechDecoder_V1.so" target-dir="libs/x86_64" />
+        <source-file src="libs/x86_64/libbdtts.so" target-dir="libs/x86_64" />
+        <source-file src="libs/x86_64/libgnustl_shared.so" target-dir="libs/x86_64" />
 
 
     </platform>

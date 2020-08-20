@@ -103,11 +103,9 @@ public class BaiduAsrPlugin extends CordovaPlugin {
 
             }
         });
-        mSpeechSynthesizer.setAppId(applicationInfo.metaData.getString("com.baidu.speech.APP_ID"));
+        mSpeechSynthesizer.setAppId(String.valueOf(applicationInfo.metaData.getInt("com.baidu.speech.APP_ID")));
         mSpeechSynthesizer.setApiKey(applicationInfo.metaData.getString("com.baidu.speech.API_KEY"),applicationInfo.metaData.getString("com.baidu.speech.SECRET_KEY"));
 
-        // mSpeechSynthesizer.setAppId("10099877");
-        // mSpeechSynthesizer.setApiKey("BEaA7Pk5LPkdvZnpNvM81xra","fda5a5cfbce396f20b21c3510412989d");
         // 5. 以下setParam 参数选填。不填写则默认值生效
         // 设置在线发声音人： 0 普通女声（默认） 1 普通男声 2 特别男声 3 情感男声<度逍遥> 4 情感儿童声<度丫丫>
         mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0");
